@@ -156,6 +156,13 @@ const isMine = props.user.username ==  props.currrentUser
 
     border: none;
     background-color: inherit;
+
+    transition: filter .5s ease;
+}
+
+.actions button:hover {
+    filter: brightness(150%);
+    cursor: pointer;
 }
 
 .actions button + button {

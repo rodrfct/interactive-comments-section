@@ -38,6 +38,11 @@ const props = defineProps({
     resize: none;
 }
 
+.comment-input textarea:hover {
+    border-color: var(--moderate-blue);
+    cursor: pointer;
+}
+
 .comment-input button {
     background-color: var(--moderate-blue);
     border: none;
@@ -48,6 +53,15 @@ const props = defineProps({
     padding: 1em 2em;
 
     align-self: start;
+}
+
+.comment-input button:hover {
+    filter: brightness(150%);
+    cursor: pointer;
+}
+
+.comment-input button, .comment-input textarea {
+    transition: all .5s ease;
 }
 
 </style>
