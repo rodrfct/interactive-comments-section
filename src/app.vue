@@ -7,7 +7,10 @@ useHead({
 
 // For drafting, should be replaced by a fetch call later
 const currrentUser = {
-  userName: "Florentino"
+  userName: "Florentino",
+  image: {
+    png: "/_nuxt/assets/avatars/image-maxblagun.png"
+  }
 }
 
 const replies = [
@@ -43,7 +46,7 @@ const replies = [
       :currrentUser="currrentUser.userName"
       :replies="replies" />
 
-    <CommentInput />
+    <CommentInput v-bind:currentUser="currrentUser" />
   </div>
 </template>
 

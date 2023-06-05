@@ -1,9 +1,53 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+    currentUser: {
+        type: Object,
+        required: true
+    }
+})
+</script>
 
 <template>
-    <form>
-        <img src="" alt="">
-        <input type="text">
+    <form class="comment-input">
+        <img :src="currentUser.image.png" alt="">
+        <textarea placeholder="Add a comment..." name="comment" rows="3"></textarea>
         <button type="submit">SEND</button>
     </form>
 </template>
+
+<style scoped>
+.comment-input {
+    background-color: var(--white);
+    border-radius: 10px;
+    padding: 1em;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 1em;
+}
+
+.comment-input img {
+    width: 2em;
+}
+
+.comment-input textarea {
+    padding: 1em;
+    font-family: inherit;
+    border: 1px solid var(--light-gray);
+    border-radius: 5px;
+    resize: none;
+}
+
+.comment-input button {
+    background-color: var(--moderate-blue);
+    border: none;
+    border-radius: 8px;
+
+    color: var(--white);
+    font-weight: 700;
+    padding: 1em 2em;
+
+    align-self: start;
+}
+
+</style>
