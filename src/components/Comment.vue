@@ -16,14 +16,23 @@ const props = defineProps({
         type: Number,
         required: true
     },
-    userName: {
-        type: String,
-        required: true
+    user: {
+        type: Object,
+        required: true,
+
+        username: {
+            type: String,
+            required: true
+        },
+        Image: {
+            type: String,
+            required: true
+        },
     },
-    userImage: {
-        type: String,
-        required: true
+    replyingTo: {
+        type: String
     },
+
     replies: {
         type: Array,
     },
@@ -33,55 +42,62 @@ const props = defineProps({
     }
 })
 
-const isMine = props.userName ==  props.currrentUser.userName
+const isMine = props.user.username ==  props.currrentUser
 
 </script>
 
 <template>
-    <article class="comment">
-        <div class="score">
-            <span>+</span>
+    <div class="wrapper">
+        <article class="comment">
+            <div class="score">
+                <img src="~/assets/icons/icon-plus.svg" alt="">
 
-            <span id="score-value">{{ props.score }}</span>
-            
-            <span>-</span>
-        </div>
-
-        <div class="content">
-            <img class="pfp" :src="props.userImage" alt="">
-
-            <span class="username">
-                {{ props.userName }}
-                <span  v-if="isMine" class="you">you</span>
-            </span>
-
-            <span>{{ props.createdAt }}</span>
-
-            <div v-if="isMine" class="actions">
-                <button>
-                    <img src="~/assets/icons/icon-delete.svg" alt="">
-                    Delete
-                </button>
-                <button>
-                    <img src="~/assets/icons/icon-edit.svg" alt="">
-                    Edit
-                </button>
-            </div>
-            <div v-else class="actions">
-                <button>
-                    <img src="~/assets/icons/icon-reply.svg" alt="">
-                    Reply
-                </button>
+                <span id="score-value">{{ props.score }}</span>
+                
+                <img src="~/assets/icons/icon-minus.svg" alt="">
             </div>
 
-            <p>{{ props.content }}</p>
+            <div class="content">
+                <img class="pfp" :src="props.user.image.png" alt="">
+
+                <span class="username">
+                    {{ props.user.username }}
+                    <span  v-if="isMine" class="you">you</span>
+                </span>
+
+                <span>{{ props.createdAt }}</span>
+
+                <div v-if="isMine" class="actions">
+                    <button class="delete-btn">
+                        <img src="~/assets/icons/icon-delete.svg" alt="">
+                        Delete
+                    </button>
+                    <button>
+                        <img src="~/assets/icons/icon-edit.svg" alt="">
+                        Edit
+                    </button>
+                </div>
+                <div v-else class="actions">
+                    <button>
+                        <img src="~/assets/icons/icon-reply.svg" alt="">
+                        Reply
+                    </button>
+                </div>
+
+                <p><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
+            </div>
+        </article>
+
+        <div v-if="replies" class="replies">
+            <Comment v-for="reply in props.replies"
+            v-bind="reply" :image="reply.user.image.png"
+            :currrent-user="'ramsesmiron'" :comment-id="reply.id" />
         </div>
-    </article>
+    </div>
 </template>
 
 <style scoped>
 .comment {
-    width: 500px;
     padding: 1.2em;
     margin: 2em 0;
 
@@ -105,8 +121,8 @@ const isMine = props.userName ==  props.currrentUser.userName
     font-weight: 700;
 }
 
-.score > span {
-    display: block;
+.score img {
+    padding: .3em 0;
 }
 
 #score-value {
@@ -150,8 +166,18 @@ const isMine = props.userName ==  props.currrentUser.userName
     margin-right: .3em;
 }
 
+.replies {
+    border-left: 2px solid var(--light-gray);
+    margin-left: 6%;
+    padding-left: 6%;
+}
+
 .pfp {
     width: 1.5em;
+}
+
+.delete-btn {
+    color: var(--soft-red) !important;
 }
 
 .username {
@@ -165,5 +191,10 @@ const isMine = props.userName ==  props.currrentUser.userName
     font-size: .8em;
     padding: .15em .3em;
     border-radius: 3px;
+}
+
+.replying-to {
+    color: var(--moderate-blue);
+    font-weight: 500;
 }
 </style>
