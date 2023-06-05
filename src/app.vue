@@ -14,13 +14,14 @@ const currrentUser = {
 
 <template>
   <div>
-    <Comment commentId="1"
-      content="Hello World!"
+    <Comment :commentId="1"
+      content="    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque ipsam voluptatem exercitationem, quis delectus nemo a laboriosam? Laboriosam totam sint, ducimus vel dolorem, consequuntur distinctio quas provident eligendi, libero alias.
+"
       createdAt="2 days ago"
-      score="3"
+      :score="3"
       userName="Federico"
       :userImage="anImage"
-      :currrentUser="currrentUser"
+      :currrentUser="currrentUser.userName"
     />
 
     <CommentInput />
