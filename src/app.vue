@@ -7,12 +7,17 @@ const { data } = await useFetch('/api/comments', {
   pick: ['comments']
 })
 
+const comments = data.value.comments
+
+const sortedComments = computed(() => {
+  return comments.sort((a,b) => b.score - a.score)
+})
 </script>
 
 <template>
   <div class="comment-section">
 
-    <Comment v-for="comment in data.comments" :key="comment.id"
+    <Comment v-for="comment in sortedComments" :key="comment.id"
     v-bind="comment" :commentId="comment.id" />
 
     <CommentInput />
