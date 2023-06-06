@@ -1,15 +1,12 @@
 <script setup>
-const props = defineProps({
-    currentUser: {
-        type: Object,
-        required: true
-    }
+const { data } = await useFetch('/api/comments', {
+  pick: ['currentUser']
 })
 </script>
 
 <template>
     <form class="comment-input">
-        <img :src="currentUser.image.png" alt="">
+        <img :src="data.currentUser.image.png" alt="">
         <textarea placeholder="Add a comment..." name="comment" rows="3"></textarea>
         <button type="submit">SEND</button>
     </form>

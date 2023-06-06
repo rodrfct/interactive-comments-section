@@ -122,7 +122,14 @@ const isMine = props.user.username ==  props.currrentUser
 }
 
 .score img {
+    display: block;
     padding: .3em 0;
+    transition: filter .4s;
+}
+
+.score img:hover {
+    cursor: pointer;
+    filter: brightness(60%);
 }
 
 #score-value {
