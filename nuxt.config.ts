@@ -6,5 +6,13 @@ export default defineNuxtConfig({
     srcDir: 'src/',
     css: [
         '~/assets/main.css'
-    ]
+    ],
+    nitro: {
+        storage: {
+            db: {
+            driver: 'fs',
+            base: './.data/db'
+            }
+        }
+    }
 })
