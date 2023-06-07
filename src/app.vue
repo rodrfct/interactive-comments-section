@@ -5,6 +5,11 @@ useHead({
   title: "Frontend Mentor | Interactive comments section"
 })
 
+await useFetch('/api/comments', {
+  method: 'POST',
+  body: commentsJSON
+})
+
 const { data } = await useFetch('/api/comments', {
   method: 'GET',
   pick: ['comments']
@@ -14,13 +19,6 @@ const comments = data.value.comments
 
 const sortedComments = computed(() => {
   return comments.sort((a,b) => b.score - a.score)
-})
-
-onMounted(async () => {
-  await useFetch('/api/comments', {
-    method: 'POST',
-    body: commentsJSON
-  })
 })
 
 </script>
