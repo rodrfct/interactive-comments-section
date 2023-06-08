@@ -95,5 +95,21 @@ export const useCommentsStore = defineStore('comments', () => {
         } else {comments.value.comments.push(newComment)}
     }
 
-    return { comments, addComment }
+    function updateComment(id, newContent) {
+        comments.value.comments.forEach(comment => {
+            if (comment.id == id) {
+                comment.content = newContent
+                return
+            } else {
+                comment.replies.forEach(reply => {
+                    if (reply.id == id) {
+                        reply.content = newContent
+                        return
+                    }
+                })
+            }
+        })
+    }
+
+    return { comments, addComment, updateComment }
 })

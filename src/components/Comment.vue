@@ -1,4 +1,8 @@
 <script setup>
+import { useCommentsStore }  from '~/stores/comments'
+
+const { updateComment } = useCommentsStore()
+
 const props = defineProps({
     commentId: {
         type: String,
@@ -46,6 +50,15 @@ const isMine = props.user.username == props.currrentUser.username
 
 const isReplying = ref(false)
 
+const isEditing = ref(false)
+
+const newContent = ref(props.content)
+
+function editComment() {
+    updateComment(props.commentId, newContent);
+    isEditing.value = false
+}
+
 </script>
 
 <template>
@@ -74,7 +87,7 @@ const isReplying = ref(false)
                         <img src="~/assets/icons/icon-delete.svg" alt="">
                         Delete
                     </button>
-                    <button>
+                    <button @click="isEditing = !isEditing">
                         <img src="~/assets/icons/icon-edit.svg" alt="">
                         Edit
                     </button>
@@ -86,11 +99,17 @@ const isReplying = ref(false)
                     </button>
                 </div>
 
-                <p><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
+                <p v-if="!isEditing"><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
+                
+                <form v-else @submit.prevent="editComment" class="edit">
+                    <textarea v-model="newContent" name="content" rows="3"></textarea>
+                    <button type="submit">UPDATE</button>
+                </form>
             </div>
 
         </article>
-        <CommentInput class="response" @submit.prevent="isReplying = false" v-if="isReplying"
+
+        <CommentInput class="reply" @submit.prevent="isReplying = false" v-if="isReplying"
         :replyingToId="props.commentId"
         :replyingTo="props.user.username" />
 
@@ -99,6 +118,7 @@ const isReplying = ref(false)
             v-bind="reply" :image="reply.user.image.png"
             :comment-id="reply.id" :currrent-user="props.currrentUser" />
         </div>
+
     </div>
 </template>
 
@@ -129,9 +149,9 @@ const isReplying = ref(false)
     grid-row: 1;
 }
 
-.response {
+.reply {
     padding: 1.2em;
-    margin: -1em 0;
+    margin-top: -1em;
 
     background-color: var(--white);
     color: var(--grayish-blue);
@@ -160,14 +180,16 @@ const isReplying = ref(false)
     display: grid;
     grid-template-rows: 1fr auto;
     grid-template-columns: auto auto auto 1fr;
-    column-gap: .8em
+    column-gap: .8em;
+
+    width: 100%;
 }
 
 .content > * {
     grid-row: 1;
 }
 
-.content p {
+.content p, .edit {
     grid-row: 2;
     grid-column: 1/-1;
 }
@@ -229,5 +251,49 @@ const isReplying = ref(false)
 .replying-to {
     color: var(--moderate-blue);
     font-weight: 500;
+}
+
+
+/*Edit form */
+.edit {
+    padding-right: 5%;
+}
+
+.edit textarea {
+    padding: 1em;
+    font-family: inherit;
+    border: 1px solid var(--light-gray);
+    border-radius: 5px;
+    resize: none;
+
+    width: 100%;
+}
+
+.edit textarea:hover {
+    border-color: var(--moderate-blue);
+    cursor: pointer;
+}
+
+.edit button {
+    background-color: var(--moderate-blue);
+    border: none;
+    border-radius: 8px;
+
+    color: var(--white);
+    font-weight: 700;
+    padding: 1em 2em;
+
+    text-align: right;
+}
+
+.edit button:hover {
+    filter: brightness(150%);
+    cursor: pointer;
+}
+
+.edit button,
+.edit textarea {
+    display: block;
+    transition: all .5s ease;
 }
 </style>
