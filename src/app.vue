@@ -1,24 +1,15 @@
 <script setup>
-import commentsJSON from '~/assets/data.json'
+import { useCommentsStore } from '~/stores/comments'
 
 useHead({
   title: "Frontend Mentor | Interactive comments section"
 })
 
-await useFetch('/api/comments', {
-  method: 'POST',
-  body: commentsJSON
-})
-
-const { data } = await useFetch('/api/comments', {
-  method: 'GET',
-  pick: ['comments']
-})
-
-const comments = data.value.comments
+const { comments } = useCommentsStore()
 
 const sortedComments = computed(() => {
-  return comments.sort((a,b) => b.score - a.score)
+  let commentsToSort = ref(comments.comments)
+  return commentsToSort.value.sort((a,b) => b.score - a.score)
 })
 
 </script>
@@ -27,7 +18,7 @@ const sortedComments = computed(() => {
   <div class="comment-section">
 
     <Comment v-for="comment in sortedComments" :key="comment.id"
-    v-bind="comment" :commentId="comment.id" />
+    v-bind="comment" :commentId="comment.id" :currrentUser="comments.currentUser" />
 
     <CommentInput />
   </div>

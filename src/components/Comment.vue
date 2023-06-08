@@ -38,11 +38,11 @@ const props = defineProps({
     },
 
     currrentUser: {
-        type: String
+        type: Object
     }
 })
 
-const isMine = props.user.username ==  props.currrentUser
+const isMine = props.user.username == props.currrentUser.username
 
 </script>
 
@@ -91,7 +91,7 @@ const isMine = props.user.username ==  props.currrentUser
         <div v-if="replies" class="replies">
             <Comment v-for="reply in props.replies"
             v-bind="reply" :image="reply.user.image.png"
-            :currrent-user="'ramsesmiron'" :comment-id="reply.id" />
+            :comment-id="reply.id" :currrent-user="props.currrentUser" />
         </div>
     </div>
 </template>

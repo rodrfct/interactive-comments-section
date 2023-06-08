@@ -1,13 +1,30 @@
 <script setup>
-const { data } = await useFetch('/api/comments', {
-  pick: ['currentUser']
-})
+import { useCommentsStore } from '~/stores/comments'
+import { uid } from 'uid'
+
+const { comments, addComment } = useCommentsStore()
+
+let content = ""
+
+function sendComment() {
+    const newComment = {
+        id: uid(),
+        content,
+        createdAt: "Now",
+        score: 0,
+        user: comments.currentUser,
+        replies: []
+    }
+    addComment(newComment)
+}
+
+
 </script>
 
 <template>
-    <form class="comment-input">
-        <img :src="data.currentUser.image.png" alt="">
-        <textarea placeholder="Add a comment..." name="comment" rows="3"></textarea>
+    <form @submit.prevent="sendComment" class="comment-input">
+        <img :src="comments.currentUser.image.png" alt="">
+        <textarea v-model="content" placeholder="Add a comment..." name="comment" rows="3"></textarea>
         <button type="submit">SEND</button>
     </form>
 </template>
@@ -57,8 +74,8 @@ const { data } = await useFetch('/api/comments', {
     cursor: pointer;
 }
 
-.comment-input button, .comment-input textarea {
+.comment-input button,
+.comment-input textarea {
     transition: all .5s ease;
 }
-
 </style>
