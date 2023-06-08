@@ -2,6 +2,18 @@
 import { useCommentsStore } from '~/stores/comments'
 import { uid } from 'uid'
 
+const props = defineProps({
+    replyingToId: {
+        type: String,
+        required: false
+    },
+
+    replyingTo: {
+        type: String,
+        required: false
+    }
+})
+
 const { comments, addComment } = useCommentsStore()
 
 let content = ""
@@ -15,9 +27,8 @@ function sendComment() {
         user: comments.currentUser,
         replies: []
     }
-    addComment(newComment)
+    addComment(newComment, props.replyingToId, props.replyingTo)
 }
-
 
 </script>
 

@@ -1,7 +1,7 @@
 <script setup>
 const props = defineProps({
     commentId: {
-        type: Number,
+        type: String,
         required: true
     },
     content: {
@@ -44,6 +44,8 @@ const props = defineProps({
 
 const isMine = props.user.username == props.currrentUser.username
 
+const isReplying = ref(false)
+
 </script>
 
 <template>
@@ -78,7 +80,7 @@ const isMine = props.user.username == props.currrentUser.username
                     </button>
                 </div>
                 <div v-else class="actions">
-                    <button>
+                    <button @click="isReplying = !isReplying">
                         <img src="~/assets/icons/icon-reply.svg" alt="">
                         Reply
                     </button>
@@ -86,6 +88,10 @@ const isMine = props.user.username == props.currrentUser.username
 
                 <p><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
             </div>
+
+            <CommentInput class="response" @submit.prevent="isReplying = false" v-if="isReplying"
+            :replyingToId="props.commentId"
+            :replyingTo="props.user.username" />
         </article>
 
         <div v-if="replies" class="replies">
@@ -101,7 +107,8 @@ const isMine = props.user.username == props.currrentUser.username
     padding: 1.2em;
     margin: 2em 0;
 
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     gap: 1em;
 
     background-color: var(--white);
@@ -119,6 +126,13 @@ const isMine = props.user.username == props.currrentUser.username
 
     color: var(--light-grayish-blue);
     font-weight: 700;
+
+    grid-row: 1;
+}
+
+.response {
+    grid-row: 2;
+    grid-column: 1/-1;
 }
 
 .score img {
@@ -138,6 +152,8 @@ const isMine = props.user.username == props.currrentUser.username
 }
 
 .content {
+    grid-row: 1;
+
     display: grid;
     grid-template-rows: 1fr auto;
     grid-template-columns: auto auto auto 1fr;
