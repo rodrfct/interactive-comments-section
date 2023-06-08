@@ -89,10 +89,10 @@ const isReplying = ref(false)
                 <p><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
             </div>
 
-            <CommentInput class="response" @submit.prevent="isReplying = false" v-if="isReplying"
-            :replyingToId="props.commentId"
-            :replyingTo="props.user.username" />
         </article>
+        <CommentInput class="response" @submit.prevent="isReplying = false" v-if="isReplying"
+        :replyingToId="props.commentId"
+        :replyingTo="props.user.username" />
 
         <div v-if="replies" class="replies">
             <Comment v-for="reply in props.replies"
@@ -107,8 +107,7 @@ const isReplying = ref(false)
     padding: 1.2em;
     margin: 2em 0;
 
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
     gap: 1em;
 
     background-color: var(--white);
@@ -131,8 +130,12 @@ const isReplying = ref(false)
 }
 
 .response {
-    grid-row: 2;
-    grid-column: 1/-1;
+    padding: 1.2em;
+    margin: -1em 0;
+
+    background-color: var(--white);
+    color: var(--grayish-blue);
+    border-radius: 10px;
 }
 
 .score img {

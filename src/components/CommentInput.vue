@@ -18,6 +18,12 @@ const { comments, addComment } = useCommentsStore()
 
 let content = ""
 
+const submitMsg = computed(() => {
+    if (props.replyingToId) {
+        return "REPLY"
+    } else {return "SEND"}
+})
+
 function sendComment() {
     const newComment = {
         id: uid(),
@@ -36,7 +42,7 @@ function sendComment() {
     <form @submit.prevent="sendComment" class="comment-input">
         <img :src="comments.currentUser.image.png" alt="">
         <textarea v-model="content" placeholder="Add a comment..." name="comment" rows="3"></textarea>
-        <button type="submit">SEND</button>
+        <button type="submit">{{ submitMsg }}</button>
     </form>
 </template>
 
