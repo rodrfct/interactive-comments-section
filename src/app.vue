@@ -26,6 +26,6 @@ const sortedComments = computed(() => {
 
 <style scoped>
 .comment-section {
-  width: 500px;
+  padding: 0 4em;
 }
 </style>
