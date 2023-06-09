@@ -2,6 +2,11 @@ import { defineStore } from 'pinia';
 import { uid } from 'uid';
 import { ref } from 'vue'
 
+import juliusomo from '~/assets/avatars/image-juliusomo.png'
+import amyrobson from '~/assets/avatars/image-amyrobson.png'
+import maxblagun from '~/assets/avatars/image-maxblagun.png'
+import ramsesmiron from '~/assets/avatars/image-ramsesmiron.png'
+
 // Uncomment lines to cap votes to 1
 
 export const useCommentsStore = defineStore('comments', () => {
@@ -9,7 +14,7 @@ export const useCommentsStore = defineStore('comments', () => {
     const comments = ref({
         "currentUser": {
             "image": {
-                "png": "/avatars/image-juliusomo.png",
+                "png": juliusomo,
                 "webp": "/avatars/image-juliusomo.webp"
             },
             "username": "juliusomo",
@@ -23,7 +28,7 @@ export const useCommentsStore = defineStore('comments', () => {
                 "score": 12,
                 "user": {
                     "image": {
-                        "png": "/avatars/image-amyrobson.png",
+                        "png": amyrobson,
                         "webp": "/avatars/image-amyrobson.webp"
                     },
                     "username": "amyrobson"
@@ -37,7 +42,7 @@ export const useCommentsStore = defineStore('comments', () => {
                 "score": 5,
                 "user": {
                     "image": {
-                        "png": "/avatars/image-maxblagun.png",
+                        "png": maxblagun,
                         "webp": "/avatars/image-maxblagun.webp"
                     },
                     "username": "maxblagun"
@@ -51,7 +56,7 @@ export const useCommentsStore = defineStore('comments', () => {
                         "replyingTo": "maxblagun",
                         "user": {
                             "image": {
-                                "png": "/avatars/image-ramsesmiron.png",
+                                "png": ramsesmiron,
                                 "webp": "/avatars/image-ramsesmiron.webp"
                             },
                             "username": "ramsesmiron"
@@ -65,7 +70,7 @@ export const useCommentsStore = defineStore('comments', () => {
                         "replyingTo": "ramsesmiron",
                         "user": {
                             "image": {
-                                "png": "/avatars/image-juliusomo.png",
+                                "png": juliusomo,
                                 "webp": "/avatars/image-juliusomo.webp"
                             },
                             "username": "juliusomo"
