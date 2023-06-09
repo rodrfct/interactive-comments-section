@@ -1,7 +1,7 @@
 <script setup>
 import { useCommentsStore }  from '~/stores/comments'
 
-const { updateComment, voteComment } = useCommentsStore()
+const { updateComment, voteComment, deleteComment } = useCommentsStore()
 
 const props = defineProps({
     commentId: {
@@ -54,9 +54,23 @@ const isEditing = ref(false)
 
 const newContent = ref(props.content)
 
+const deleteModal = ref(null)
+
 function editComment() {
     updateComment(props.commentId, newContent);
     isEditing.value = false
+}
+
+function showDeleteModal() {
+    deleteModal.value.returnValue = 'cancel'
+    deleteModal.value.showModal()
+}
+
+// This is a hell of a stupid hack, but it`s what I came up with, I'm so tired right now
+function deleteCommentConfirmed() {
+    setTimeout(() => {
+        deleteComment(props.commentId ,deleteModal.value.returnValue)
+    }, 50);
 }
 
 </script>
@@ -83,7 +97,7 @@ function editComment() {
                 <span>{{ props.createdAt }}</span>
 
                 <div v-if="isMine" class="actions">
-                    <button class="delete-btn">
+                    <button @click="showDeleteModal()" class="delete-btn">
                         <img src="~/assets/icons/icon-delete.svg" alt="">
                         Delete
                     </button>
@@ -91,6 +105,22 @@ function editComment() {
                         <img src="~/assets/icons/icon-edit.svg" alt="">
                         Edit
                     </button>
+
+                    <dialog id="delete-modal" ref="deleteModal">
+                        <p>Delete comment</p>
+
+                        <form @submit="deleteCommentConfirmed" method="dialog">
+                            <p>
+                                Are you sure you want to delete this comment?
+                                This will remove the comment and can't be undone.
+                            </p>
+
+                            <fieldset>
+                                <button value="cancel">NO, CANCEL</button>
+                                <button id="confirm-btn" value="confirm">YES, DELETE</button>
+                            </fieldset>
+                        </form>
+                    </dialog>
                 </div>
                 <div v-else class="actions">
                     <button @click="isReplying = !isReplying">
@@ -254,6 +284,43 @@ function editComment() {
     font-weight: 500;
 }
 
+
+/*Delete Modal */
+#delete-modal {
+    border: none;
+    border-radius: 10px;
+    width: 33%;
+    padding: 1.2em;
+
+    color: inherit;
+}
+
+#delete-modal > p {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--dark-blue);
+}
+
+#delete-modal fieldset {
+    border: none;
+    display: flex;
+    gap: .5em;
+    padding: 0;
+}
+
+#delete-modal button {
+    border: none;
+    border-radius: 7px;
+    background-color: var(--grayish-blue);
+    padding: 1em;
+    color: var(--white);
+    width: 100%;
+}
+
+#confirm-btn {
+    background-color: var(--soft-red) !important;
+}
 
 /*Edit form */
 .edit {

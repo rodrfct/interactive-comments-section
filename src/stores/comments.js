@@ -155,5 +155,27 @@ export const useCommentsStore = defineStore('comments', () => {
         })
     }
 
-    return { comments, addComment, updateComment, voteComment }
+    function deleteComment(id, confirmation) {
+        console.log( confirmation)
+        if (confirmation != 'confirm') {
+            return
+        }
+
+        comments.value.comments.forEach(comment => {
+            if (comment.id == id) {
+                comments.value.comments.splice(comments.value.comments.indexOf(comment), 1)
+                return
+            } else {
+                comment.replies.forEach(reply => {
+                    if (reply.id == id) {
+                        comment.replies.splice(comment.replies.indexOf(reply), 1)
+                        return
+                    }
+                })
+            }
+        })
+
+    }
+
+    return { comments, addComment, updateComment, voteComment, deleteComment }
 })
