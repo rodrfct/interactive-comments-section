@@ -9,8 +9,8 @@ export const useCommentsStore = defineStore('comments', () => {
     const comments = ref({
         "currentUser": {
             "image": {
-                "png": "/_nuxt/assets/avatars/image-juliusomo.png",
-                "webp": "/_nuxt/assets/avatars/image-juliusomo.webp"
+                "png": "/avatars/image-juliusomo.png",
+                "webp": "/avatars/image-juliusomo.webp"
             },
             "username": "juliusomo",
             // "votedComments": []
@@ -23,8 +23,8 @@ export const useCommentsStore = defineStore('comments', () => {
                 "score": 12,
                 "user": {
                     "image": {
-                        "png": "/_nuxt/assets/avatars/image-amyrobson.png",
-                        "webp": "/_nuxt/assets/avatars/image-amyrobson.webp"
+                        "png": "/avatars/image-amyrobson.png",
+                        "webp": "/avatars/image-amyrobson.webp"
                     },
                     "username": "amyrobson"
                 },
@@ -37,8 +37,8 @@ export const useCommentsStore = defineStore('comments', () => {
                 "score": 5,
                 "user": {
                     "image": {
-                        "png": "/_nuxt/assets/avatars/image-maxblagun.png",
-                        "webp": "/_nuxt/assets/avatars/image-maxblagun.webp"
+                        "png": "/avatars/image-maxblagun.png",
+                        "webp": "/avatars/image-maxblagun.webp"
                     },
                     "username": "maxblagun"
                 },
@@ -51,8 +51,8 @@ export const useCommentsStore = defineStore('comments', () => {
                         "replyingTo": "maxblagun",
                         "user": {
                             "image": {
-                                "png": "/_nuxt/assets/avatars/image-ramsesmiron.png",
-                                "webp": "/_nuxt/assets/avatars/image-ramsesmiron.webp"
+                                "png": "/avatars/image-ramsesmiron.png",
+                                "webp": "/avatars/image-ramsesmiron.webp"
                             },
                             "username": "ramsesmiron"
                         }
@@ -65,8 +65,8 @@ export const useCommentsStore = defineStore('comments', () => {
                         "replyingTo": "ramsesmiron",
                         "user": {
                             "image": {
-                                "png": "/_nuxt/assets/avatars/image-juliusomo.png",
-                                "webp": "/_nuxt/assets/avatars/image-juliusomo.webp"
+                                "png": "/avatars/image-juliusomo.png",
+                                "webp": "/avatars/image-juliusomo.webp"
                             },
                             "username": "juliusomo"
                         }
