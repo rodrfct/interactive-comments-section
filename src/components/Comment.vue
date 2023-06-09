@@ -1,7 +1,7 @@
 <script setup>
 import { useCommentsStore }  from '~/stores/comments'
 
-const { updateComment } = useCommentsStore()
+const { updateComment, voteComment } = useCommentsStore()
 
 const props = defineProps({
     commentId: {
@@ -65,11 +65,11 @@ function editComment() {
     <div class="wrapper">
         <article class="comment">
             <div class="score">
-                <img src="~/assets/icons/icon-plus.svg" alt="">
+                <img @click="voteComment(props.commentId, true)" src="~/assets/icons/icon-plus.svg" alt="">
 
                 <span id="score-value">{{ props.score }}</span>
                 
-                <img src="~/assets/icons/icon-minus.svg" alt="">
+                <img @click="voteComment(props.commentId, false)" src="~/assets/icons/icon-minus.svg" alt="">
             </div>
 
             <div class="content">
@@ -160,6 +160,7 @@ function editComment() {
 
 .score img {
     display: block;
+    margin: 0 auto;
     padding: .3em 0;
     transition: filter .4s;
 }

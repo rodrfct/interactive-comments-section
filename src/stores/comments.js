@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { uid } from 'uid';
 import { ref } from 'vue'
 
+// Uncomment lines to cap votes to 1
+
 export const useCommentsStore = defineStore('comments', () => {
 
     const comments = ref({
@@ -10,7 +12,8 @@ export const useCommentsStore = defineStore('comments', () => {
                 "png": "/_nuxt/assets/avatars/image-juliusomo.png",
                 "webp": "/_nuxt/assets/avatars/image-juliusomo.webp"
             },
-            "username": "juliusomo"
+            "username": "juliusomo",
+            // "votedComments": []
         },
         "comments": [
             {
@@ -111,5 +114,41 @@ export const useCommentsStore = defineStore('comments', () => {
         })
     }
 
-    return { comments, addComment, updateComment }
+    function voteComment(id, upOrDown) {
+        comments.value.comments.forEach(comment => {
+            if (comment.id == id) {
+                // if (comments.value.currentUser.votedComments.includes(comment.id)) {
+                //     return
+                // }
+
+                if (upOrDown) {
+                    comment.score++
+                    // comments.value.currentUser.votedComments.push(comment.id)
+                } else if (upOrDown == false) {
+                    comment.score--
+                    // comments.value.currentUser.votedComments.push(comment.id)
+                }
+                return
+            } else {
+                comment.replies.forEach(reply => {
+                    if (reply.id == id) {
+                        // if (comments.value.currentUser.votedComments.includes(reply.id)) {
+                        //     return
+                        // }
+
+                        if (upOrDown) {
+                            reply.score++
+                            // comments.value.currentUser.votedComments.push(reply.id)
+                        } else if (upOrDown == false) {
+                            reply.score--
+                            // comments.value.currentUser.votedComments.push(reply.id)
+                        }
+                        return
+                    }
+                })
+            }
+        })
+    }
+
+    return { comments, addComment, updateComment, voteComment }
 })
