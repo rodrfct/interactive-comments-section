@@ -13,7 +13,7 @@ const props = defineProps({
         required: true
     },
     createdAt: {
-        type: String,
+        type: Date,
         required: true
     },
     score: {
@@ -56,6 +56,36 @@ const newContent = ref(props.content)
 
 const deleteModal = ref(null)
 
+const formattedDate = computed(() => {
+    const currentDate = new Date();
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = currentDate.getTime() - props.createdAt.getTime();
+
+    // Convert the time difference to seconds, minutes, hours, and days
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30)
+
+    // Choose what unit to use and format
+    if (months) {
+        return `${months} ${months == 1 ? 'month' : 'months' } ago`
+    } else if (days) {
+        if (days == 1) {
+            return "yesterday"
+        } else if (days % 7 == 0) {
+            return `${days / 7} ${days / 7 == 1 ? 'week' : 'weeks'} ago`
+        } else {return `${days} days ago`}
+    } else if (hours) {
+        return `${hours} ${hours == 1 ? 'hour' : 'hours'} ago`
+    } else if (minutes) {
+        return `${minutes} ${minutes == 1 ? 'minute' : 'minutes'} ago`
+    } else {return "now"}
+
+})
+
 function editComment() {
     updateComment(props.commentId, newContent);
     isEditing.value = false
@@ -94,7 +124,7 @@ function deleteCommentConfirmed() {
                     <span  v-if="isMine" class="you">you</span>
                 </span>
 
-                <span>{{ props.createdAt }}</span>
+                <span>{{ formattedDate }}</span>
 
                 <div v-if="isMine" class="actions">
                     <button @click="showDeleteModal()" class="delete-btn">
