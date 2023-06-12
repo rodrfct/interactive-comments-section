@@ -25,16 +25,13 @@ const submitMsg = computed(() => {
 })
 
 function sendComment() {
-    let newComment = {
+    const newComment = {
         id: uid(),
         content,
         createdAt: new Date(),
         score: 0,
-        user: comments.currentUser
-    }
-
-    if (props.replyingToId) {
-        newComment.replies = []
+        user: comments.currentUser,
+        replies: []
     }
     
     addComment(newComment, props.replyingToId, props.replyingTo)
