@@ -12,7 +12,8 @@ const sortedComments = computed(() => {
   return commentsToSort.value.sort((a, b) => b.score - a.score)
 })
 
-onBeforeMount(() => {
+// onBeforeMount will result in hydration mismatch
+onMounted(() => {
   if (localStorage.getItem('comments')) {
     comments.comments = JSON.parse(localStorage.getItem('comments'),
     
@@ -50,6 +51,7 @@ onBeforeMount(() => {
 
 <style scoped>
 .comment-section {
-  padding: 0 4em;
+  max-width: 70%;
+  margin: auto;
 }
 </style>

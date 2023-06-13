@@ -108,6 +108,7 @@ function deleteCommentConfirmed() {
 <template>
     <div class="wrapper">
         <article class="comment">
+            <!-- SCORE -->
             <div class="score">
                 <img @click="voteComment(props.commentId, true)" src="~/assets/icons/icon-plus.svg" alt="">
 
@@ -116,6 +117,7 @@ function deleteCommentConfirmed() {
                 <img @click="voteComment(props.commentId, false)" src="~/assets/icons/icon-minus.svg" alt="">
             </div>
 
+            <!-- CONTENT -->
             <div class="content">
                 <img class="pfp" :src="props.user.image.png" alt="">
 
@@ -159,6 +161,7 @@ function deleteCommentConfirmed() {
                     </button>
                 </div>
 
+                <!-- TEXT -->
                 <p v-if="!isEditing"><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
                 
                 <form v-else @submit.prevent="editComment" class="edit">
@@ -169,10 +172,12 @@ function deleteCommentConfirmed() {
 
         </article>
 
+        <!-- REPLY FORM -->
         <CommentInput class="reply" @submit.prevent="isReplying = false" v-if="isReplying"
         :replyingToId="props.commentId"
         :replyingTo="props.user.username" />
 
+        <!-- REPLIES -->
         <div v-if="replies" class="replies">
             <Comment v-for="reply in props.replies"
             v-bind="reply" :image="reply.user.image.png"
