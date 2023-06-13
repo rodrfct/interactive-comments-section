@@ -9,7 +9,31 @@ const { comments } = useCommentsStore()
 
 const sortedComments = computed(() => {
   let commentsToSort = ref(comments.comments)
-  return commentsToSort.value.sort((a,b) => b.score - a.score)
+  return commentsToSort.value.sort((a, b) => b.score - a.score)
+})
+
+onBeforeMount(() => {
+  if (localStorage.getItem('comments')) {
+    comments.comments = JSON.parse(localStorage.getItem('comments'),
+    
+    // Deserialize Dates
+    (key, value) => {
+      if (typeof value !== "string") {
+        return value;
+      }
+      const isoDateRegex = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
+      if (isoDateRegex.exec(value)) {
+        return new Date(value);
+      }
+      return value;
+    })
+  }
+
+  watch(() => comments.comments, (val) => {
+    localStorage.setItem('comments', JSON.stringify(val))
+  }, {
+    deep: true
+  })
 })
 
 </script>
