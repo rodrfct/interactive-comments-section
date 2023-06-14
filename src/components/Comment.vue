@@ -394,7 +394,7 @@ function deleteCommentConfirmed() {
 /* Mobile design */
 @media (width < 500px) {
     .comment {
-        padding: 0;
+        padding: .9em;
 
         grid-template-columns: auto auto 1fr;
         grid-template-rows: auto 1fr auto;

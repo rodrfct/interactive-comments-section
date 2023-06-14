@@ -2,7 +2,10 @@
 import { useCommentsStore } from '~/stores/comments'
 
 useHead({
-  title: "Frontend Mentor | Interactive comments section"
+  title: "Frontend Mentor | Interactive comments section",
+  htmlAttrs: {
+    lang: 'en'
+  }
 })
 
 const { comments } = useCommentsStore()
