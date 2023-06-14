@@ -1,5 +1,5 @@
 <script setup>
-import { useCommentsStore }  from '~/stores/comments'
+import { useCommentsStore } from '~/stores/comments'
 
 const { updateComment, voteComment, deleteComment } = useCommentsStore()
 
@@ -71,18 +71,18 @@ const formattedDate = computed(() => {
 
     // Choose what unit to use and format
     if (months) {
-        return `${months} ${months == 1 ? 'month' : 'months' } ago`
+        return `${months} ${months == 1 ? 'month' : 'months'} ago`
     } else if (days) {
         if (days == 1) {
             return "yesterday"
         } else if (days % 7 == 0) {
             return `${days / 7} ${days / 7 == 1 ? 'week' : 'weeks'} ago`
-        } else {return `${days} days ago`}
+        } else { return `${days} days ago` }
     } else if (hours) {
         return `${hours} ${hours == 1 ? 'hour' : 'hours'} ago`
     } else if (minutes) {
         return `${minutes} ${minutes == 1 ? 'minute' : 'minutes'} ago`
-    } else {return "now"}
+    } else { return "now" }
 
 })
 
@@ -99,7 +99,7 @@ function showDeleteModal() {
 // This is a hell of a stupid hack, but it`s what I came up with, I'm so tired right now
 function deleteCommentConfirmed() {
     setTimeout(() => {
-        deleteComment(props.commentId ,deleteModal.value.returnValue)
+        deleteComment(props.commentId, deleteModal.value.returnValue)
     }, 50);
 }
 
@@ -113,75 +113,72 @@ function deleteCommentConfirmed() {
                 <img @click="voteComment(props.commentId, true)" src="~/assets/icons/icon-plus.svg" alt="">
 
                 <span id="score-value">{{ props.score }}</span>
-                
+
                 <img @click="voteComment(props.commentId, false)" src="~/assets/icons/icon-minus.svg" alt="">
             </div>
 
             <!-- CONTENT -->
-            <div class="content">
-                <img class="pfp" :src="props.user.image.png" alt="">
+            <img class="pfp" :src="props.user.image.png" alt="">
 
-                <span class="username">
-                    {{ props.user.username }}
-                    <span  v-if="isMine" class="you">you</span>
-                </span>
+            <span class="username">
+                {{ props.user.username }}
+                <span v-if="isMine" class="you">you</span>
+            </span>
 
-                <span>{{ formattedDate }}</span>
+            <span>{{ formattedDate }}</span>
 
-                <div v-if="isMine" class="actions">
-                    <button @click="showDeleteModal()" class="delete-btn">
-                        <img src="~/assets/icons/icon-delete.svg" alt="">
-                        Delete
-                    </button>
-                    <button @click="isEditing = !isEditing">
-                        <img src="~/assets/icons/icon-edit.svg" alt="">
-                        Edit
-                    </button>
+            <div v-if="isMine" class="actions">
+                <button @click="showDeleteModal()" class="delete-btn">
+                    <img src="~/assets/icons/icon-delete.svg" alt="">
+                    Delete
+                </button>
+                <button @click="isEditing = !isEditing">
+                    <img src="~/assets/icons/icon-edit.svg" alt="">
+                    Edit
+                </button>
 
-                    <dialog id="delete-modal" ref="deleteModal">
-                        <p>Delete comment</p>
+                <dialog id="delete-modal" ref="deleteModal">
+                    <p>Delete comment</p>
 
-                        <form @submit="deleteCommentConfirmed" method="dialog">
-                            <p>
-                                Are you sure you want to delete this comment?
-                                This will remove the comment and can't be undone.
-                            </p>
+                    <form @submit="deleteCommentConfirmed" method="dialog">
+                        <p>
+                            Are you sure you want to delete this comment?
+                            This will remove the comment and can't be undone.
+                        </p>
 
-                            <fieldset>
-                                <button value="cancel">NO, CANCEL</button>
-                                <button id="confirm-btn" value="confirm">YES, DELETE</button>
-                            </fieldset>
-                        </form>
-                    </dialog>
-                </div>
-                <div v-else class="actions">
-                    <button @click="isReplying = !isReplying">
-                        <img src="~/assets/icons/icon-reply.svg" alt="">
-                        Reply
-                    </button>
-                </div>
-
-                <!-- TEXT -->
-                <p v-if="!isEditing"><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{ props.content }}</p>
-                
-                <form v-else @submit.prevent="editComment" class="edit">
-                    <textarea v-model="newContent" name="content" rows="3"></textarea>
-                    <button type="submit">UPDATE</button>
-                </form>
+                        <fieldset>
+                            <button value="cancel">NO, CANCEL</button>
+                            <button id="confirm-btn" value="confirm">YES, DELETE</button>
+                        </fieldset>
+                    </form>
+                </dialog>
             </div>
+            <div v-else class="actions">
+                <button @click="isReplying = !isReplying">
+                    <img src="~/assets/icons/icon-reply.svg" alt="">
+                    Reply
+                </button>
+            </div>
+
+            <!-- TEXT -->
+            <p v-if="!isEditing"><span v-if="props.replyingTo" class="replying-to">{{ `@${props.replyingTo} ` }} </span>{{
+                props.content }}</p>
+
+            <form v-else @submit.prevent="editComment" class="edit">
+                <textarea v-model="newContent" name="content" rows="3"></textarea>
+                <button type="submit">UPDATE</button>
+            </form>
 
         </article>
 
         <!-- REPLY FORM -->
-        <CommentInput class="reply" @submit.prevent="isReplying = false" v-if="isReplying"
-        :replyingToId="props.commentId"
-        :replyingTo="props.user.username" />
+        <CommentInput class="reply" @submit.prevent="isReplying = false" v-if="isReplying" :replyingToId="props.commentId"
+            :replyingTo="props.user.username" />
 
         <!-- REPLIES -->
         <div v-if="replies" class="replies">
-            <Comment v-for="reply in props.replies"
-            v-bind="reply" :image="reply.user.image.png"
-            :comment-id="reply.id" :currrent-user="props.currrentUser" />
+            <Comment v-for="reply in props.replies" v-bind="reply" :image="reply.user.image.png" :comment-id="reply.id"
+                :currrent-user="props.currrentUser" />
         </div>
 
     </div>
@@ -192,12 +189,19 @@ function deleteCommentConfirmed() {
     padding: 1.2em;
     margin: 2em 0;
 
-    display: flex;
-    gap: 1em;
+    display: grid;
+    grid-template-columns: auto auto auto auto 1fr;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    column-gap: 1em;
 
     background-color: var(--white);
     color: var(--grayish-blue);
     border-radius: 10px;
+}
+
+.comment > * {
+    grid-row: 1;
 }
 
 .score {
@@ -208,10 +212,12 @@ function deleteCommentConfirmed() {
     padding: .6em;
     border-radius: 8px;
 
-    color: var(--light-grayish-blue);
+    color: var(--moderate-blue);
     font-weight: 700;
 
-    grid-row: 1;
+    grid-column: 1;
+    grid-row: 1/-1;
+    align-self: start;
 }
 
 .reply {
@@ -235,29 +241,9 @@ function deleteCommentConfirmed() {
     filter: brightness(60%);
 }
 
-#score-value {
-    color: var(--moderate-blue);
-    margin: .4em 0;
-}
-
-.content {
-    grid-row: 1;
-
-    display: grid;
-    grid-template-rows: 1fr auto;
-    grid-template-columns: auto auto auto 1fr;
-    column-gap: .8em;
-
-    width: 100%;
-}
-
-.content > * {
-    grid-row: 1;
-}
-
-.content p, .edit {
+.comment p, .edit {
     grid-row: 2;
-    grid-column: 1/-1;
+    grid-column: -1/2;
 }
 
 .actions {
@@ -324,7 +310,7 @@ function deleteCommentConfirmed() {
 #delete-modal {
     border: none;
     border-radius: 10px;
-    width: 33%;
+    max-width: 33%;
     padding: 1.2em;
 
     color: inherit;
@@ -351,6 +337,11 @@ function deleteCommentConfirmed() {
     padding: 1em;
     color: var(--white);
     width: 100%;
+}
+
+#delete-modal::backdrop {
+    background-color: #000;
+    opacity: .5;
 }
 
 #confirm-btn {
@@ -398,5 +389,54 @@ function deleteCommentConfirmed() {
 .edit textarea {
     display: block;
     transition: all .5s ease;
+}
+
+/* Mobile design */
+@media (width < 500px) {
+    .comment {
+        padding: 0;
+
+        grid-template-columns: auto auto 1fr;
+        grid-template-rows: auto 1fr auto;
+        column-gap: 0.2em;
+    }
+
+    .comment > span {
+        justify-self: end;
+    }
+
+    .score {
+        grid-row: 3;
+        grid-column: 1;
+
+        padding: .2em;
+    }
+
+    .score img {
+        display: inline !important;
+        vertical-align: middle;
+        margin: 0 .4em;
+    }
+
+    #score-value {
+        vertical-align: middle;
+    }
+
+    .actions {
+        grid-row: 3;
+        grid-column: 2/-1;
+        align-self: center;
+        justify-self: right;
+    }
+
+    .comment p,
+    .edit {
+        grid-row: 2;
+        grid-column: 1/-1;
+    }
+
+    #delete-modal {
+        max-width: 80%;
+    }
 }
 </style>
